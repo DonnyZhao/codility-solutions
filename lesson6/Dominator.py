@@ -2,27 +2,20 @@
 
 
 def solution(A):
-    num = len(A)
-    if num == 0:
-        return -1
-
-    sorted_input = sorted(A)
-
-    dominators_count = [0]
-    dominators = [sorted_input[0]]
-    last_val = sorted_input[0]
-    for val in sorted_input:
-        if val == last_val:
-            dominators_count[-1] += 1
+    count = 0
+    for val in A:
+        if count == 0:
+            candidate = val
+            count += 1
         else:
-            last_val = val
-            dominators.append(val)
-            dominators_count.append(1)
+            if candidate == val:
+                count += 1
+            else:
+                count -= 1
 
-    dominator_occurrence = max(dominators_count)
-    dominator_candidate = dominators[dominators_count.index(dominator_occurrence)]
+    count_occurrence = 0
+    for val in A:
+        if val == candidate:
+            count_occurrence += 1
 
-    if num // 2 < dominator_occurrence:
-        return A.index(dominator_candidate)
-    else:
-        return -1
+    return A.index(candidate) if len(A) // 2 < count_occurrence else -1
